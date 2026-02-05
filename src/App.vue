@@ -421,6 +421,7 @@ onUnmounted(() => {
   gap: 20px;
   width: 100%;
   background: white;
+  padding-right: 2px;
   border-radius: 0px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   overflow: hidden;
