@@ -50,7 +50,8 @@
     "element-plus": "^2.9.1",
     "vue": "^3.4.21",
     "vue-i18n": "^10.0.1",
-    "googleapis": "^133.0.0"
+    "googleapis": "^133.0.0",
+    "vue-router": "^4.4.5"
   },
   "pnpm": {
     "overrides": {
