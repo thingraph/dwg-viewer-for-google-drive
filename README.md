@@ -84,8 +84,6 @@ This application can be registered as a Google Drive App to handle CAD files dir
 - Select "Open with" → "CAD Viewer"
 - The app opens with the selected file loaded
 
-See [GOOGLE_DRIVE_APP_SETUP.md](./GOOGLE_DRIVE_APP_SETUP.md) for complete setup instructions.
-
 ## Security
 
 - All authentication is handled securely through Google's OAuth 2.0 flow
@@ -100,14 +98,6 @@ See [GOOGLE_DRIVE_APP_SETUP.md](./GOOGLE_DRIVE_APP_SETUP.md) for complete setup 
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin feature/your-feature-name`
 5. Submit a pull request
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Authentication fails**: Ensure your Google API credentials are correctly configured and the domain is authorized
-2. **Files not loading**: Check that the Google Drive API is enabled in your Google Cloud Console
-3. **CORS errors**: Make sure your domain is added to the authorized origins in your OAuth 2.0 client configuration
 
 ### Development Issues
 
