@@ -27,11 +27,11 @@ export default [
       }
     }
   },
-  { 
-    languageOptions: { 
-      globals: { 
+  {
+    languageOptions: {
+      globals: {
         ...globals.browser,
-      } 
+      }
     }
   },
   {

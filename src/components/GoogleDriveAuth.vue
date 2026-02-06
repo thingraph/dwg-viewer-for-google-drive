@@ -7,11 +7,11 @@
           <span>Google Drive Integration</span>
         </div>
       </template>
-      
+
       <div class="auth-content">
         <div v-if="!isAuthenticated" class="auth-prompt">
           <p>Connect to Google Drive to view DWG/DXF files directly from your Drive.</p>
-          <el-button 
+          <el-button
             type="primary"
             size="large"
             @click="authenticate"
@@ -22,7 +22,7 @@
             &nbsp;Connect Google Drive
           </el-button>
         </div>
-        
+
         <div v-else class="auth-success">
           <el-alert
             title="Connected to Google Drive"
@@ -49,12 +49,12 @@ import { ElAlert, ElAvatar,ElButton, ElCard, ElIcon } from 'element-plus'
 
 import { useGoogleDrive } from '../composables/useGoogleDrive'
 
-const { 
-  isAuthenticated, 
-  isLoading, 
-  userInfo, 
-  authenticate, 
-  signOut 
+const {
+  isAuthenticated,
+  isLoading,
+  userInfo,
+  authenticate,
+  signOut
 } = useGoogleDrive()
 </script>
 

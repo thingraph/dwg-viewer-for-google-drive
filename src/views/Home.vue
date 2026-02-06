@@ -59,12 +59,6 @@
           </div>
 
           <div class="viewer-main">
-            <div v-if="selectedFile" class="file-info">
-              <span class="file-name">{{ selectedFile.name }}</span>
-              <span class="file-status" v-if="!fileUrl">Loading file from Google Drive...</span>
-              <span class="file-status" v-else>File loaded</span>
-            </div>
-
             <div v-if="fileUrl" class="cad-viewer">
               <div
                 id="viewer-container"
@@ -422,21 +416,6 @@ onUnmounted(() => {
   min-width: 0;
 }
 
-.file-info {
-  padding: 17px;
-  border-bottom: 1px solid #e4e7ed;
-  background: #f8f9fa;
-}
-
-.file-info .file-name {
-  margin: 0 20px 0 0;
-}
-
-.file-info .file-status {
-  margin: 0;
-  color: #666;
-  font-size: 0.8rem;
-}
 
 .cad-viewer {
   flex: 1;

@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue'
 // Google Drive API configuration
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ''
-const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.readonly'
+const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file'
 
 interface UserInfo {
   name: string
@@ -19,10 +19,6 @@ interface DriveFile {
   mimeType: string
 }
 
-interface SearchResult {
-  files: DriveFile[]
-  total: number
-}
 
 // Google Drive App integration
 interface DriveAppAction {
@@ -46,9 +42,6 @@ let tokenClient: any = null
 let gapiInited = false
 let gisInited = false
 
-// Store page tokens for pagination
-// Key format: "query:page" -> pageToken
-const pageTokenCache = new Map<string, string>()
 
 export function useGoogleDrive() {
 
@@ -77,7 +70,7 @@ export function useGoogleDrive() {
 
       // Initialize gapi
       await new Promise<void>((resolve) => {
-        gapi.load('client', resolve)
+        gapi.load('client:picker', resolve)
       })
 
       await gapi.client.init({
@@ -128,7 +121,7 @@ export function useGoogleDrive() {
     isLoading.value = true
     try {
       await initializeGoogleAPIs()
-      
+
       if (tokenClient) {
         tokenClient.requestAccessToken()
       }
@@ -145,7 +138,7 @@ export function useGoogleDrive() {
       google.accounts.oauth2.revoke(token.access_token)
       gapi.client.setToken('')
     }
-    
+
     isAuthenticated.value = false
     userInfo.name = ''
     userInfo.email = ''
@@ -155,13 +148,13 @@ export function useGoogleDrive() {
   // Handle Google Drive App integration
   const handleDriveAppAction = async (action: DriveAppAction) => {
     console.log('Drive App Action:', action)
-    
+
     if (action.action === 'open') {
       try {
         // Get file details
         const fileDetails = await getFileDetails(action.fileId)
         currentFile.value = fileDetails
-        
+
         // Authenticate if needed
         if (!isAuthenticated.value) {
           await authenticate()
@@ -242,84 +235,83 @@ export function useGoogleDrive() {
     }
   }
 
-  // Legacy search functionality (for file browser)
-  const searchFiles = async (query: string, page: number = 1, pageSize: number = 20): Promise<SearchResult> => {
+  // Google Drive Picker API - allows user to select a file without drive.readonly permission
+  const openFilePicker = async (): Promise<DriveFile> => {
     if (!isAuthenticated.value) {
-      throw new Error('Not authenticated')
+      throw new Error('Please authenticate first')
     }
 
+    if (!API_KEY) {
+      throw new Error('Google API Key is not configured. Please set VITE_GOOGLE_API_KEY in your environment variables.')
+    }
+
+    const token = gapi.client.getToken()
+    if (!token || !token.access_token) {
+      throw new Error('No access token available. Please authenticate first.')
+    }
+
+    return new Promise((resolve, reject) => {
+      // Load the Picker API if not already loaded
+      if (typeof google?.picker === 'undefined') {
+        gapi.load('picker', () => {
+          createPicker(token.access_token, resolve, reject)
+        })
+      } else {
+        createPicker(token.access_token, resolve, reject)
+      }
+    })
+  }
+
+  const createPicker = (accessToken: string, resolve: (file: DriveFile) => void, reject: (error: Error) => void) => {
     try {
-      // Clear cache if it's a new query (page 1)
-      if (page === 1) {
-        pageTokenCache.clear()
+      if (!API_KEY) {
+        reject(new Error('Google API Key is not configured. Please set VITE_GOOGLE_API_KEY in your environment variables.'))
+        return
       }
 
-      // Get the page token for this page
-      const cacheKey = `${query}:${page}`
-      let pageToken = pageTokenCache.get(cacheKey)
+      // Create a DocsView with MIME type filtering
+      // DocsView defaults to list view, no need to set mode explicitly
+      const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
+      docsView.setMimeTypes('application/acad,application/dxf,image/vnd.dwg,image/vnd.dxf,application/autocad_dwg,application/autocad_dxf')
 
-      // If we don't have a token for this page, we need to fetch from the beginning
-      // and navigate to the desired page
-      if (!pageToken && page > 1) {
-        // Fetch pages sequentially until we reach the desired page
-        let currentPage = 1
-        let nextToken: string | undefined = undefined
-        
-        while (currentPage < page) {
-          const response: any = await gapi.client.drive.files.list({
-            q: query,
-            pageSize: pageSize,
-            pageToken: nextToken,
-            fields: 'files(id,name,size,modifiedTime,mimeType),nextPageToken'
-          })
-
-          nextToken = response.result.nextPageToken
-          if (!nextToken) {
-            // No more pages available
-            break
+      const picker = new google.picker.PickerBuilder()
+        .setOAuthToken(accessToken)
+        .setDeveloperKey(API_KEY)
+        .addView(docsView)
+        .setCallback((data: any) => {
+          if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+            const file = data[google.picker.Response.DOCUMENTS][0]
+            // Get file details using the file ID
+            getFileDetails(file.id)
+              .then((fileDetails) => {
+                resolve(fileDetails)
+              })
+              .catch((error) => {
+                console.error('Error getting file details:', error)
+                reject(new Error('Failed to get file details. Please try again.'))
+              })
+          } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
+            reject(new Error('User cancelled file selection'))
           }
+        })
+        .build()
 
-          // Cache the token for the next page
-          const nextPageKey = `${query}:${currentPage + 1}`
-          pageTokenCache.set(nextPageKey, nextToken)
-          
-          currentPage++
-        }
+      picker.setVisible(true)
+    } catch (error: any) {
+      console.error('Error creating picker:', error)
+      let errorMessage = 'Failed to open file picker. '
 
-        pageToken = nextToken
+      if (error?.message?.includes('developer key') || error?.message?.includes('API key')) {
+        errorMessage += 'The Google API Key is invalid or not configured correctly. Please check:\n' +
+          '1. VITE_GOOGLE_API_KEY is set in your .env file\n' +
+          '2. The API key is valid in Google Cloud Console\n' +
+          '3. Google Picker API is enabled for your project\n' +
+          '4. The API key has no restrictions or allows your domain'
+      } else {
+        errorMessage += 'Please try again.'
       }
 
-      // Fetch the current page
-      const response = await gapi.client.drive.files.list({
-        q: query,
-        pageSize: pageSize,
-        pageToken: pageToken,
-        fields: 'files(id,name,size,modifiedTime,mimeType),nextPageToken'
-      })
-
-      const files = response.result.files || []
-      const nextPageToken = response.result.nextPageToken
-
-      // Cache the next page token if it exists
-      if (nextPageToken) {
-        const nextPageKey = `${query}:${page + 1}`
-        pageTokenCache.set(nextPageKey, nextPageToken)
-      }
-
-      // Calculate total: if there's a next page token, we estimate there are more files
-      // Since Google Drive API doesn't provide total count, we use a large number
-      // or calculate based on current page and whether there's a next page
-      const estimatedTotal = nextPageToken 
-        ? page * pageSize + 1 // At least one more page
-        : (page - 1) * pageSize + files.length
-
-      return {
-        files: files,
-        total: estimatedTotal
-      }
-    } catch (error) {
-      console.error('Error searching files:', error)
-      throw error
+      reject(new Error(errorMessage))
     }
   }
 
@@ -356,7 +348,7 @@ export function useGoogleDrive() {
     currentFile,
     authenticate,
     signOut,
-    searchFiles,
+    openFilePicker,
     getFileContent,
     getFileDownloadUrl,
     getFileDetails,

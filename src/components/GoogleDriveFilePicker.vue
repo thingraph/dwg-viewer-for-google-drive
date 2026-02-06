@@ -9,62 +9,52 @@
       </template>
 
       <div class="picker-content">
-        <div class="search-bar">
-          <el-input
-            v-model="searchQuery"
-            placeholder="Search for DWG/DXF files..."
-            clearable
-            @input="handleSearch"
+        <div class="picker-prompt">
+          <p>Click the button below to open Google Drive file picker and select a DWG or DXF file to view.</p>
+          <el-button
+            type="primary"
+            size="large"
+            @click="handlePickFile"
+            :loading="isLoading"
+            :disabled="!isAuthenticated"
+            class="pick-button"
           >
-            <template #prefix>
-              <el-icon><Search /></el-icon>
-            </template>
-          </el-input>
+            <el-icon><FolderOpened /></el-icon>
+            &nbsp;Choose File from Google Drive
+          </el-button>
         </div>
-        
-        <div class="file-list">
-          <el-empty v-if="files.length === 0 && !isLoading" description="No DWG/DXF files found" />
-          
-          <el-skeleton v-if="isLoading" :rows="5" animated />
-          
-          <div v-else class="files-grid">
-            <div
-              v-for="file in files"
-              :key="file.id"
-              class="file-item"
-              @click="selectFile(file)"
-            >
-              <div class="file-icon">
-                <el-icon size="32" color="#409EFF">
-                  <Document />
-                </el-icon>
-              </div>
-              <div class="file-info">
-                <div class="file-name">{{ file.name }}</div>
-                <div class="file-meta">
-                  {{ formatFileSize(file.size) }} • {{ formatDate(file.modifiedTime) }}
-                </div>
-              </div>
-              <div class="file-actions">
-                <el-button 
-                  type="primary" 
-                  size="small" 
-                  @click.stop="selectFile(file)"
-                >
-                  View
-                </el-button>
+
+        <div v-if="selectedFile" class="selected-file">
+          <el-alert
+            title="File Selected - Loading..."
+            type="success"
+            :closable="false"
+            show-icon
+          />
+          <div class="file-info-card">
+            <div class="file-icon">
+              <el-icon size="48" color="#409EFF">
+                <Document />
+              </el-icon>
+            </div>
+            <div class="file-details">
+              <div class="file-name">{{ selectedFile.name }}</div>
+              <div class="file-meta">
+                <span v-if="selectedFile.size !== '0'">{{ formatFileSize(selectedFile.size) }}</span>
+                <span v-if="selectedFile.size !== '0' && selectedFile.modifiedTime"> • </span>
+                <span v-if="selectedFile.modifiedTime">{{ formatDate(selectedFile.modifiedTime) }}</span>
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="pagination" v-if="files.length > 0">
-          <el-pagination
-            v-model:current-page="currentPage"
-            :page-size="pageSize"
-            :total="totalFiles"
-            layout="prev, pager, next"
-            @current-change="handlePageChange"
+
+        <div v-if="error" class="error-message">
+          <el-alert
+            :title="error"
+            type="error"
+            :closable="true"
+            @close="error = ''"
+            show-icon
           />
         </div>
       </div>
@@ -73,9 +63,9 @@
 </template>
 
 <script setup lang="ts">
-import { Document,FolderOpened, Search } from '@element-plus/icons-vue'
-import { ElButton, ElCard, ElEmpty, ElIcon, ElInput, ElPagination,ElSkeleton } from 'element-plus'
-import { onMounted, ref, watch } from 'vue'
+import { Document, FolderOpened } from '@element-plus/icons-vue'
+import { ElAlert, ElButton, ElCard, ElIcon } from 'element-plus'
+import { ref } from 'vue'
 
 import { useGoogleDrive } from '../composables/useGoogleDrive'
 
@@ -91,71 +81,53 @@ const emit = defineEmits<{
   fileSelected: [file: DriveFile]
 }>()
 
-const { searchFiles, isAuthenticated } = useGoogleDrive()
+const { openFilePicker, isAuthenticated } = useGoogleDrive()
 
-const searchQuery = ref('')
-const files = ref<DriveFile[]>([])
 const isLoading = ref(false)
-const currentPage = ref(1)
-const pageSize = ref(20)
-const totalFiles = ref(0)
+const selectedFile = ref<DriveFile | null>(null)
+const error = ref('')
 
-const supportedExtensions = ['.dwg', '.dxf']
+const handlePickFile = async () => {
+  if (!isAuthenticated.value) {
+    error.value = 'Please connect to Google Drive first'
+    return
+  }
 
-const handleSearch = async () => {
-  if (!isAuthenticated.value) return
-  
   isLoading.value = true
+  error.value = ''
+
   try {
-    const query = searchQuery.value 
-      ? `name contains '${searchQuery.value}' and (${supportedExtensions.map(ext => `name contains '${ext}'`).join(' or ')})`
-      : `(${supportedExtensions.map(ext => `name contains '${ext}'`).join(' or ')})`
-    
-    const result = await searchFiles(query, currentPage.value, pageSize.value)
-    files.value = result.files
-    totalFiles.value = result.total
-  } catch (error) {
-    console.error('Error searching files:', error)
+    const file = await openFilePicker()
+    selectedFile.value = file
+    // Automatically emit fileSelected event to display the file immediately
+    emit('fileSelected', file)
+  } catch (err: any) {
+    console.error('Error picking file:', err)
+    if (err.message !== 'User cancelled file selection') {
+      error.value = err.message || 'Failed to select file. Please try again.'
+      // Only clear selectedFile on actual errors, not on user cancellation
+      // This preserves the file info display when user cancels the picker
+    }
+    // Don't clear selectedFile.value when user cancels - keep the previous file info visible
   } finally {
     isLoading.value = false
   }
 }
 
-const handlePageChange = (page: number) => {
-  currentPage.value = page
-  handleSearch()
-}
-
-const selectFile = (file: DriveFile) => {
-  emit('fileSelected', file)
-}
-
 const formatFileSize = (size: string) => {
   const bytes = parseInt(size)
   if (bytes === 0) return '0 Bytes'
-  
+
   const k = 1024
   const sizes = ['Bytes', 'KB', 'MB', 'GB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  
+
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString()
 }
-
-onMounted(() => {
-  if (isAuthenticated.value) {
-    handleSearch()
-  }
-})
-
-watch(isAuthenticated, (authenticated) => {
-  if (authenticated) {
-    handleSearch()
-  }
-})
 </script>
 
 <style scoped>
@@ -196,76 +168,78 @@ watch(isAuthenticated, (authenticated) => {
   flex-direction: column;
   gap: 20px;
   height: 100%;
-  overflow: hidden;
-  flex: 1;
-}
-
-.search-bar {
-  margin-bottom: 16px;
-  flex-shrink: 0;
-}
-
-.file-list {
-  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  min-height: 0;
+  flex: 1;
+  padding: 20px;
 }
 
-.files-grid {
-  display: grid;
-  gap: 12px;
+.picker-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+  text-align: center;
+  flex: 1;
 }
 
-.file-item {
+.picker-prompt p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.pick-button {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.selected-file {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.file-info-card {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 20px;
   border: 1px solid #e4e7ed;
   border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 0;
-}
-
-.file-item:hover {
-  border-color: #409EFF;
-  background-color: #f0f9ff;
+  background: #f8f9fa;
 }
 
 .file-icon {
   flex-shrink: 0;
 }
 
-.file-info {
+.file-details {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
 }
 
 .file-name {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 16px;
   color: #333;
-  margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-bottom: 8px;
+  word-break: break-word;
 }
 
 .file-meta {
-  font-size: 12px;
-  color: #999;
+  font-size: 14px;
+  color: #666;
 }
 
 .file-actions {
   flex-shrink: 0;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  flex-shrink: 0;
+.error-message {
+  margin-top: 16px;
 }
 </style>
