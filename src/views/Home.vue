@@ -5,29 +5,15 @@
       <div class="header-actions">
         <router-link to="/privacy" class="header-link">Privacy</router-link>
         <router-link to="/terms" class="header-link">Terms</router-link>
-        <el-button
-          v-if="!showLocalViewer"
-          @click="showLocalViewer = true"
-          type="primary"
-          text
-        >
-          View local files
-        </el-button>
-        <el-button
-          v-else
-          @click="showLocalViewer = false"
-          type="primary"
-          text
-        >
-          <el-icon><ArrowLeft /></el-icon>
-          Back to Google Drive
-        </el-button>
+        <router-link to="/local-file">
+          <el-button type="primary" text>
+            View local files
+          </el-button>
+        </router-link>
       </div>
     </div>
 
-    <LocalFileViewer v-if="showLocalViewer" @go-back="showLocalViewer = false" />
-
-    <div v-else class="app-content">
+    <div class="app-content">
       <div v-if="isLoading" class="loading-container">
         <el-card class="loading-card">
           <div class="loading-content">
@@ -98,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowLeft, Loading } from '@element-plus/icons-vue'
+import { Loading } from '@element-plus/icons-vue'
 import { Model2dConfig, Viewer2d, Viewer2dConfig } from '@x-viewer/core'
 import {
   AxisGizmoPlugin,
@@ -115,7 +101,6 @@ import { onUnmounted, ref, watch, nextTick } from 'vue'
 
 import GoogleDriveAuth from '../components/GoogleDriveAuth.vue'
 import GoogleDriveFilePicker from '../components/GoogleDriveFilePicker.vue'
-import LocalFileViewer from '../components/LocalFileViewer.vue'
 import { useGoogleDrive } from '../composables/useGoogleDrive'
 
 interface DriveFile {
@@ -134,7 +119,6 @@ const {
   signOut
 } = useGoogleDrive()
 
-const showLocalViewer = ref(false)
 const selectedFile = ref<DriveFile | null>(null)
 const fileUrl = ref<string>('')
 const viewerContainer = ref<HTMLElement | null>(null)
