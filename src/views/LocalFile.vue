@@ -1,30 +1,44 @@
 <template>
-  <div class="local-file-viewer">
-    <div id="local-viewer-container" ref="viewerContainer" class="x-viewer-wrapper"></div>
-
-    <!-- Floating Upload Button -->
-    <div class="floating-upload-btn">
-      <el-button type="primary" @click="openFileBrowser">
-        <el-icon><Upload /></el-icon>
-        &nbsp;Upload DWG/DXF
-      </el-button>
+  <div class="local-file-view">
+    <div class="app-header">
+      <h1>Local DWG/DXF Viewer</h1>
+      <div class="header-actions">
+        <router-link to="/" class="header-link">
+          <el-button type="primary" text>
+            <el-icon><ArrowLeft /></el-icon>
+            Back to Google Drive
+          </el-button>
+        </router-link>
+      </div>
     </div>
 
-    <!-- Floating controls -->
-    <div class="floating-controls">
-      <!-- File names display -->
-      <div v-if="loadedFileNames.length > 0" class="current-file-names">
-        <span v-for="(name, index) in loadedFileNames" :key="index" class="file-name-tag">
-          {{ name }}
-          <span v-if="index < loadedFileNames.length - 1"> | </span>
-        </span>
+    <div class="local-file-viewer">
+      <div id="local-viewer-container" ref="viewerContainer" class="x-viewer-wrapper"></div>
+
+      <!-- Floating Upload Button -->
+      <div class="floating-upload-btn">
+        <el-button type="primary" @click="openFileBrowser">
+          <el-icon><Upload /></el-icon>
+          &nbsp;Upload DWG/DXF
+        </el-button>
+      </div>
+
+      <!-- Floating controls -->
+      <div class="floating-controls">
+        <!-- File names display -->
+        <div v-if="loadedFileNames.length > 0" class="current-file-names">
+          <span v-for="(name, index) in loadedFileNames" :key="index" class="file-name-tag">
+            {{ name }}
+            <span v-if="index < loadedFileNames.length - 1"> | </span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Upload } from '@element-plus/icons-vue'
+import { ArrowLeft, Upload } from '@element-plus/icons-vue'
 import { Viewer2d, Viewer2dConfig } from '@x-viewer/core'
 import {
   AxisGizmoPlugin,
@@ -150,6 +164,43 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.local-file-view {
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.app-header .header-actions {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-link {
+  text-decoration: none;
+}
+
 .local-file-viewer {
   flex: 1;
   position: relative;

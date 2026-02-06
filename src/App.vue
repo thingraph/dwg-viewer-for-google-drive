@@ -18,7 +18,8 @@
 </style>
 
 <style>
-#app-root > .home-view {
+#app-root > .home-view,
+#app-root > .local-file-view {
   flex: 1;
   overflow: hidden;
 }
