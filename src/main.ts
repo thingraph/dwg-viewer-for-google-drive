@@ -13,12 +13,6 @@ const initApp = () => {
   app.use(router)
   app.use(ElementPlus)
   app.mount('#app')
-
-  // Hide the loading spinner
-  const loader = document.getElementById('loader')
-  if (loader) {
-    loader.style.display = 'none'
-  }
 }
 
 initApp()
