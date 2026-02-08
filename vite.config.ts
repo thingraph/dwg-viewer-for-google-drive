@@ -89,6 +89,9 @@ export default defineConfig(({ command, mode }) => {
           main: resolve(__dirname, 'index.html')
         },
         output: {
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].js',
+          assetFileNames: 'assets/[name][extname]',
           manualChunks: id => {
           }
         }
