@@ -29,6 +29,28 @@ interface DriveAppAction {
   mimeType: string
 }
 
+/**
+ * URL params for opening a single file from Google Drive (e.g. "Open with DWG Viewer" or direct link).
+ * Only applied on the root route (/), e.g. https://drive.thingraph.site/?fileId=xxx
+ *
+ * Supported query params:
+ * - fileId: Required. Google Drive file ID.
+ * - fileName: Optional. Display name before metadata is fetched via API.
+ * - mimeType: Optional. MIME type hint (e.g. application/acad).
+ *
+ * Examples:
+ *   /?fileId=1abc...
+ *   /?fileId=1abc...&fileName=drawing.dwg&mimeType=application/acad
+ */
+function parseDriveOpenParams(search: string): DriveAppAction | null {
+  const params = new URLSearchParams(search)
+  const fileId = params.get('fileId') || ''
+  if (!fileId.trim()) return null
+  const fileName = params.get('fileName') || ''
+  const mimeType = params.get('mimeType') || ''
+  return { action: 'open', fileId: fileId.trim(), fileName, mimeType }
+}
+
 // Shared state so all components (App.vue, GoogleDriveAuth, GoogleDriveFilePicker) see the same isAuthenticated
 const isAuthenticated = ref(false)
 const isLoading = ref(false)
@@ -319,20 +341,13 @@ export function useGoogleDrive() {
 
   // Initialize Drive App integration
   onMounted(() => {
-    // Check if we're being opened as a Drive App
-    const urlParams = new URLSearchParams(window.location.search)
-    const action = urlParams.get('action')
-    const fileId = urlParams.get('fileId')
-    const fileName = urlParams.get('fileName')
-    const mimeType = urlParams.get('mimeType')
-
-    if (action && fileId && fileName && mimeType) {
-      handleDriveAppAction({
-        action,
-        fileId,
-        fileName,
-        mimeType
-      })
+    // Parse "open from Google Drive" URL params (only on root route /)
+    const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+    if (pathname === '/' && window.location.search) {
+      const openParams = parseDriveOpenParams(window.location.search)
+      if (openParams) {
+        handleDriveAppAction(openParams)
+      }
     }
 
     // Listen for Drive App messages
