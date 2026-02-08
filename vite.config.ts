@@ -1,3 +1,4 @@
+import { copyFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { Alias, defineConfig } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
@@ -20,6 +21,17 @@ export default defineConfig(({ command, mode }) => {
 
   const plugins = [
     vue(),
+    {
+      name: 'github-pages-spa',
+      closeBundle() {
+        const outDir = resolve(__dirname, 'dist')
+        const indexPath = resolve(outDir, 'index.html')
+        const notFoundPath = resolve(outDir, '404.html')
+        if (existsSync(indexPath)) {
+          copyFileSync(indexPath, notFoundPath)
+        }
+      }
+    },
     svgLoader(),
     Unocss({
       presets: [
