@@ -26,7 +26,7 @@
 
         <div v-if="selectedFile" class="selected-file">
           <el-alert
-            title="File Selected - Loading..."
+            title="File Selected"
             type="success"
             :closable="false"
             show-icon

@@ -31,8 +31,8 @@
             show-icon
           />
           <div class="user-info">
-            <el-avatar :src="userInfo.picture" :size="40" />
-            <span class="user-name">{{ userInfo.name }}</span>
+            <!-- <el-avatar :src="userInfo.picture" :size="40" />
+            <span class="user-name">{{ userInfo.name }}</span> -->
             <el-button size="small" @click="signOut" type="danger" text>
               Sign Out
             </el-button>
@@ -45,14 +45,14 @@
 
 <script setup lang="ts">
 import { FolderOpened } from '@element-plus/icons-vue'
-import { ElAlert, ElAvatar,ElButton, ElCard, ElIcon } from 'element-plus'
+import { ElAlert, ElButton, ElCard, ElIcon } from 'element-plus'
 
 import { useGoogleDrive } from '../composables/useGoogleDrive'
 
 const {
   isAuthenticated,
   isLoading,
-  userInfo,
+  // userInfo,
   authenticate,
   signOut
 } = useGoogleDrive()

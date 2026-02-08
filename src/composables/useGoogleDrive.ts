@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 // Google Drive API configuration
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
