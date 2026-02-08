@@ -61,7 +61,6 @@ pnpm install
    - Go to "APIs & Services" > "OAuth consent screen"
    - Configure the consent screen
    - Add scopes:
-     - `https://www.googleapis.com/auth/userinfo.profile`
      - `https://www.googleapis.com/auth/drive.file`
 
 ## Development
@@ -111,7 +110,6 @@ pnpm preview
 
 The application requests the following Google Drive permissions:
 - `https://www.googleapis.com/auth/drive.file` - Access to files that the user explicitly selects via Google Drive Picker
-- `https://www.googleapis.com/auth/userinfo.profile` - Get user info
 
 **Note**: The application uses Google Drive Picker API, which means it can only access files that users explicitly select. It does not have access to browse or list all files in the user's Drive, providing better privacy and security.
 

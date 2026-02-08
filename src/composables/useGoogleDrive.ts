@@ -3,13 +3,14 @@ import { onMounted, reactive, ref } from 'vue'
 // Google Drive API configuration
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ''
-const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file'
+// const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file'
+const SCOPES = 'https://www.googleapis.com/auth/drive.file'
 
-interface UserInfo {
-  name: string
-  email: string
-  picture: string
-}
+// interface UserInfo {
+//   name: string
+//   email: string
+//   picture: string
+// }
 
 interface DriveFile {
   id: string
@@ -32,11 +33,11 @@ interface DriveAppAction {
 const isAuthenticated = ref(false)
 const isLoading = ref(false)
 const currentFile = ref<DriveFile | null>(null)
-const userInfo = reactive<UserInfo>({
-  name: '',
-  email: '',
-  picture: ''
-})
+// const userInfo = reactive<UserInfo>({
+//   name: '',
+//   email: '',
+//   picture: ''
+// })
 
 let tokenClient: any = null
 let gapiInited = false
@@ -100,16 +101,17 @@ export function useGoogleDrive() {
     }
 
     // Get user info
-    gapi.client.request({
-      path: 'https://www.googleapis.com/oauth2/v2/userinfo'
-    }).then((userResponse: any) => {
-      userInfo.name = userResponse.result.name
-      userInfo.email = userResponse.result.email
-      userInfo.picture = userResponse.result.picture
-      isAuthenticated.value = true
-    }).catch((error: any) => {
-      console.error('Error getting user info:', error)
-    })
+    // gapi.client.request({
+    //   path: 'https://www.googleapis.com/oauth2/v2/userinfo'
+    // }).then((userResponse: any) => {
+    //   userInfo.name = userResponse.result.name
+    //   userInfo.email = userResponse.result.email
+    //   userInfo.picture = userResponse.result.picture
+    //   isAuthenticated.value = true
+    // }).catch((error: any) => {
+    //   console.error('Error getting user info:', error)
+    // })
+    isAuthenticated.value = true
   }
 
   const authenticate = async () => {
@@ -140,9 +142,9 @@ export function useGoogleDrive() {
     }
 
     isAuthenticated.value = false
-    userInfo.name = ''
-    userInfo.email = ''
-    userInfo.picture = ''
+    // userInfo.name = ''
+    // userInfo.email = ''
+    // userInfo.picture = ''
   }
 
   // Handle Google Drive App integration
@@ -344,7 +346,7 @@ export function useGoogleDrive() {
   return {
     isAuthenticated,
     isLoading,
-    userInfo,
+    // userInfo,
     currentFile,
     authenticate,
     signOut,
