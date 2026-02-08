@@ -1,9 +1,15 @@
 <template>
   <div class="terms-page">
-    <div class="terms-header">
-      <router-link to="/" class="terms-back">← DWG Viewer for Google Drive</router-link>
+    <div class="app-header">
       <h1>Terms of Service</h1>
-      <p class="terms-meta">Effective Date: February 5, 2025</p>
+      <div class="header-actions">
+        <router-link to="/" class="header-link">
+          <el-button type="primary" text>
+            <el-icon><ArrowLeft /></el-icon>
+            Back to Google Drive
+          </el-button>
+        </router-link>
+      </div>
     </div>
 
     <div class="terms-content">
@@ -130,50 +136,50 @@
 </template>
 
 <script setup lang="ts">
+import { ArrowLeft } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
 .terms-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 24px;
+  overflow: auto;
 }
 
-.terms-header {
-  max-width: 800px;
-  margin: 0 auto 32px;
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
   color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
-.terms-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 2rem;
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
-.terms-back {
-  display: inline-block;
-  margin-bottom: 12px;
-  color: white;
+.app-header .header-actions {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-link {
   text-decoration: none;
-  font-size: 0.9rem;
-  opacity: 0.95;
-}
-
-.terms-back:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
-
-.terms-meta {
-  margin: 0;
-  opacity: 0.9;
-  font-size: 0.95rem;
 }
 
 .terms-content {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 24px auto 32px;
+  flex: 1;
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -229,11 +235,13 @@ a:hover {
 
 @media (max-width: 768px) {
   .terms-content {
+    margin-left: 12px;
+    margin-right: 12px;
     padding: 24px 20px;
   }
 
-  .terms-header h1 {
-    font-size: 1.5rem;
+  .app-header h1 {
+    font-size: 1.25rem;
   }
 }
 </style>

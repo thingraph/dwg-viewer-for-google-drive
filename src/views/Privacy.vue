@@ -1,9 +1,15 @@
 <template>
   <div class="privacy-page">
-    <div class="privacy-header">
-      <router-link to="/" class="privacy-back">← DWG Viewer for Google Drive</router-link>
+    <div class="app-header">
       <h1>Privacy Policy</h1>
-      <p class="privacy-meta">Effective Date: February 5, 2025</p>
+      <div class="header-actions">
+        <router-link to="/" class="header-link">
+          <el-button type="primary" text>
+            <el-icon><ArrowLeft /></el-icon>
+            Back to Google Drive
+          </el-button>
+        </router-link>
+      </div>
     </div>
 
     <div class="privacy-content">
@@ -119,50 +125,50 @@
 </template>
 
 <script setup lang="ts">
+import { ArrowLeft } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
 .privacy-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 24px;
+  overflow: auto;
 }
 
-.privacy-header {
-  max-width: 800px;
-  margin: 0 auto 32px;
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
   color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
-.privacy-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 2rem;
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
-.privacy-back {
-  display: inline-block;
-  margin-bottom: 12px;
-  color: white;
+.app-header .header-actions {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-link {
   text-decoration: none;
-  font-size: 0.9rem;
-  opacity: 0.95;
-}
-
-.privacy-back:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
-
-.privacy-meta {
-  margin: 0;
-  opacity: 0.9;
-  font-size: 0.95rem;
 }
 
 .privacy-content {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 24px auto 32px;
+  flex: 1;
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -218,11 +224,13 @@ a:hover {
 
 @media (max-width: 768px) {
   .privacy-content {
+    margin-left: 12px;
+    margin-right: 12px;
     padding: 24px 20px;
   }
 
-  .privacy-header h1 {
-    font-size: 1.5rem;
+  .app-header h1 {
+    font-size: 1.25rem;
   }
 }
 </style>
