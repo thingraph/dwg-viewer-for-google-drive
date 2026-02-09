@@ -60,7 +60,8 @@
 }
 
 .app-main > .privacy-page,
-.app-main > .terms-page {
+.app-main > .terms-page,
+.app-main > .support-page {
   flex: 1;
   overflow: auto;
 }
