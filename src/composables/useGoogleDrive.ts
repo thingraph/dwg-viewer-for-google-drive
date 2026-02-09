@@ -168,13 +168,24 @@ export function useGoogleDrive() {
 
       // Get file details after authentication
       const fileDetails = await getFileDetails(action.fileId)
-      currentFile.value = fileDetails
+      if (fileDetails) {
+        currentFile.value = fileDetails
+      } else {
+        // If file details cannot be fetched, create a minimal file object from URL params
+        currentFile.value = {
+          id: action.fileId,
+          name: action.fileName || 'Unknown File',
+          size: '0',
+          modifiedTime: '',
+          mimeType: action.mimeType || ''
+        }
+      }
     } catch (error) {
       console.error('Error handling Drive App action:', error)
     }
   }
 
-  const getFileDetails = async (fileId: string): Promise<DriveFile> => {
+  const getFileDetails = async (fileId: string): Promise<DriveFile | null> => {
     try {
       const response = await gapi.client.drive.files.get({
         fileId: fileId,
@@ -190,7 +201,8 @@ export function useGoogleDrive() {
       }
     } catch (error) {
       console.error('Error getting file details:', error)
-      throw error
+      // Return null instead of throwing error
+      return null
     }
   }
 
@@ -290,15 +302,14 @@ export function useGoogleDrive() {
         .setCallback((data: any) => {
           if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
             const file = data[google.picker.Response.DOCUMENTS][0]
-            // Get file details using the file ID
-            getFileDetails(file.id)
-              .then((fileDetails) => {
-                resolve(fileDetails)
-              })
-              .catch((error) => {
-                console.error('Error getting file details:', error)
-                reject(new Error('Failed to get file details. Please try again.'))
-              })
+            const pickerFile: DriveFile = {
+              id: file.id,
+              name: file.name || 'Unknown',
+              size: file.sizeBytes ? file.sizeBytes.toString() : '0',
+              modifiedTime: file.lastEditedUtc || file.modifiedTime || '',
+              mimeType: file.mimeType || ''
+            }
+            resolve(pickerFile)
           } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
             reject(new Error('User cancelled file selection'))
           }
