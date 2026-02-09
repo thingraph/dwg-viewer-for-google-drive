@@ -171,7 +171,7 @@ const formatDate = (dateString: string) => {
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
-  padding: 20px;
+  padding: 12px 20px 20px 20px;
 }
 
 .picker-prompt {
@@ -180,7 +180,6 @@ const formatDate = (dateString: string) => {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 40px 20px;
   text-align: center;
   flex: 1;
 }

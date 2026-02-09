@@ -10,7 +10,6 @@
 
       <div class="auth-content">
         <div v-if="!isAuthenticated" class="auth-prompt">
-          <p>Connect to Google Drive to view DWG/DXF files directly from your Drive.</p>
           <el-button
             type="primary"
             size="large"
@@ -24,16 +23,14 @@
         </div>
 
         <div v-else class="auth-success">
-          <el-alert
-            title="Connected to Google Drive"
-            type="success"
-            :closable="false"
-            show-icon
-          />
-          <div class="user-info">
-            <!-- <el-avatar :src="userInfo.picture" :size="40" />
-            <span class="user-name">{{ userInfo.name }}</span> -->
-            <el-button size="small" @click="signOut" type="danger" text>
+          <div class="auth-status">
+            <el-alert
+              title="Connected to Google Drive"
+              type="success"
+              :closable="false"
+              show-icon
+            />
+            <el-button size="small" @click="signOut" type="danger" text class="sign-out-btn">
               Sign Out
             </el-button>
           </div>
@@ -60,13 +57,26 @@ const {
 
 <style scoped>
 .google-drive-auth {
-  max-width: 500px;
-  margin: 20px auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .auth-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.auth-card :deep(.el-card__body) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
 }
 
 .card-header {
@@ -75,16 +85,36 @@ const {
   gap: 8px;
   font-weight: 600;
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .auth-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  padding: 20px;
+}
+
+.auth-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
   text-align: center;
+  flex: 1;
 }
 
 .auth-prompt p {
-  margin-bottom: 20px;
   color: #666;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0;
 }
 
 .auth-button {
@@ -98,18 +128,19 @@ const {
   gap: 16px;
 }
 
-.user-info {
+.auth-status {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 12px;
-  padding: 16px;
-  background: #f8f9fa;
-  border-radius: 8px;
 }
 
-.user-name {
-  font-weight: 500;
-  color: #333;
+.auth-status :deep(.el-alert) {
+  flex: 1;
+}
+
+.sign-out-btn {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  font-size: 12px;
 }
 </style>

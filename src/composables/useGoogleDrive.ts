@@ -23,7 +23,7 @@ interface DriveFile {
 
 // Google Drive App integration
 interface DriveAppAction {
-  action: string
+  // action: string
   fileId: string
   fileName: string
   mimeType: string
@@ -151,19 +151,26 @@ export function useGoogleDrive() {
   const handleDriveAppAction = async (action: DriveAppAction) => {
     console.log('Drive App Action:', action)
 
-    if (action.action === 'open') {
-      try {
-        // Get file details
-        const fileDetails = await getFileDetails(action.fileId)
-        currentFile.value = fileDetails
+    try {
+      // Ensure APIs are initialized first
+      await initializeGoogleAPIs()
 
-        // Authenticate if needed
-        if (!isAuthenticated.value) {
-          await authenticate()
+      // Authenticate if needed
+      if (!isAuthenticated.value) {
+        await authenticate()
+        // Wait for authentication to complete and token to be set
+        let retries = 0
+        while (!gapi.client.getToken() && retries < 10) {
+          await new Promise(resolve => setTimeout(resolve, 200))
+          retries++
         }
-      } catch (error) {
-        console.error('Error handling Drive App action:', error)
       }
+
+      // Get file details after authentication
+      const fileDetails = await getFileDetails(action.fileId)
+      currentFile.value = fileDetails
+    } catch (error) {
+      console.error('Error handling Drive App action:', error)
     }
   }
 
@@ -328,7 +335,6 @@ export function useGoogleDrive() {
 
     if (action && fileId && fileName && mimeType) {
       handleDriveAppAction({
-        action,
         fileId,
         fileName,
         mimeType

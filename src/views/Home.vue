@@ -14,48 +14,23 @@
     </div>
 
     <div class="app-content">
-      <div v-if="isLoading" class="loading-container">
-        <el-card class="loading-card">
-          <div class="loading-content">
-            <el-icon class="loading-icon" size="48"><Loading /></el-icon>
-            <p>Loading DWG/DXF file from Google Drive...</p>
-          </div>
-        </el-card>
-      </div>
-
-      <div v-else-if="currentFile && isAuthenticated" class="drive-app-mode">
-        <div class="file-header">
-          <div class="file-info">
-            <h2>{{ currentFile.name }}</h2>
-            <p>Opened from Google Drive</p>
-          </div>
-          <div class="file-actions">
-            <el-button @click="signOut" type="danger" text>
-              Sign Out
-            </el-button>
-          </div>
+      <div class="standard-mode">
+        <!-- Loading indicator below header, centered -->
+        <div v-if="isLoading" class="loading-indicator">
+          <el-icon class="loading-icon" size="24"><Loading /></el-icon>
+          <span>Loading...</span>
         </div>
 
-        <div class="cad-viewer-container">
-          <div
-            v-if="fileUrl"
-            id="viewer-container"
-            ref="viewerContainer"
-            class="x-viewer-wrapper"
-          ></div>
-          <div v-else class="viewer-loading">
-            <el-icon class="loading-icon" size="32"><Loading /></el-icon>
-            <p>Loading file content...</p>
-          </div>
-        </div>
-      </div>
-
-      <div v-else class="standard-mode">
-        <GoogleDriveAuth v-if="!isAuthenticated" />
-
-        <div v-if="isAuthenticated" class="viewer-container">
+        <div class="viewer-container">
           <div class="sidebar">
-            <GoogleDriveFilePicker @file-selected="handleFileSelected" />
+            <!-- Google Drive Auth - always shown at top -->
+            <div class="auth-section">
+              <GoogleDriveAuth />
+            </div>
+
+            <div class="picker-section">
+              <GoogleDriveFilePicker @file-selected="handleFileSelected" enable-file-picker="isAuthenticated" />
+            </div>
           </div>
 
           <div class="viewer-main">
@@ -67,7 +42,7 @@
               ></div>
             </div>
 
-            <div v-else-if="isAuthenticated && !selectedFile" class="welcome-message">
+            <div v-else class="welcome-message">
               <el-empty description="Select a DWG/DXF file from Google Drive to view it" />
             </div>
           </div>
@@ -91,7 +66,8 @@ import {
   ToolbarMenuId,
   Viewer2dToolbarPlugin
 } from '@x-viewer/plugins'
-import { onUnmounted, ref, watch, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, watch, nextTick } from 'vue'
+import { useRoute } from 'vue-router'
 
 import GoogleDriveAuth from '../components/GoogleDriveAuth.vue'
 import GoogleDriveFilePicker from '../components/GoogleDriveFilePicker.vue'
@@ -105,12 +81,15 @@ interface DriveFile {
   mimeType: string
 }
 
+const route = useRoute()
+
 const {
   isAuthenticated,
   isLoading,
   currentFile,
   getFileContent,
-  signOut
+  authenticate,
+  handleDriveAppAction
 } = useGoogleDrive()
 
 const selectedFile = ref<DriveFile | null>(null)
@@ -234,6 +213,33 @@ watch(currentFile, async (file) => {
   }
 }, { immediate: true })
 
+onMounted(async () => {
+  // Check if URL has fileId parameter (from Google Drive App)
+  const fileId = route.query.fileId as string
+  const fileName = route.query.fileName as string
+  const mimeType = route.query.mimeType as string
+
+  if (fileId) {
+    try {
+      // If user is not authenticated, authenticate first
+      if (!isAuthenticated.value) {
+        await authenticate()
+        // Wait for authentication to complete
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+
+      // Handle the Drive App action to load the file
+      await handleDriveAppAction({
+        fileId,
+        fileName: fileName || '',
+        mimeType: mimeType || ''
+      })
+    } catch (error) {
+      console.error('Error loading file from URL:', error)
+    }
+  }
+})
+
 onUnmounted(() => {
   cleanupViewer()
   cleanupBlobUrl()
@@ -295,22 +301,6 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-}
-
-.loading-card {
-  max-width: 400px;
-  text-align: center;
-}
-
-.loading-content {
-  padding: 40px;
-}
-
 .loading-icon {
   color: #409EFF;
   animation: spin 1s linear infinite;
@@ -320,68 +310,30 @@ onUnmounted(() => {
   to { transform: rotate(360deg); }
 }
 
-.drive-app-mode {
-  flex: 1;
-  min-height: 0;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.file-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #e4e7ed;
-  background: #f8f9fa;
-  flex-shrink: 0;
-}
-
-.file-info h2 {
-  margin: 0 0 4px 0;
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.file-info p {
-  margin: 0;
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.cad-viewer-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.x-viewer-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-.viewer-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  color: #666;
-}
-
 .standard-mode {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
+}
+
+.loading-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  font-size: 16px;
+  color: #409EFF;
+  z-index: 100;
+  pointer-events: none;
+  font-weight: 500;
 }
 
 .viewer-container {
@@ -406,6 +358,20 @@ onUnmounted(() => {
   flex-direction: column;
   overflow: hidden;
   flex-shrink: 0;
+  position: relative;
+}
+
+.auth-section {
+  flex-shrink: 0;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.picker-section {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .viewer-main {
@@ -445,27 +411,26 @@ onUnmounted(() => {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid #e4e7ed;
-  }
-
-  .file-header {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+    max-height: 50vh;
   }
 }
 
 @media (max-width: 768px) {
   .app-header h1 {
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   .app-content {
-    padding: 0 10px 20px;
+    padding: 0;
   }
 
-  .viewer-container,
-  .drive-app-mode {
-    margin: 0 10px;
+  .viewer-container {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .sidebar {
+    max-height: 40vh;
   }
 }
 </style>
