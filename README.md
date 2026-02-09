@@ -118,27 +118,8 @@ The application requests the following Google Drive permissions:
 This application can be registered as a Google Drive App to handle CAD files directly. When properly configured:
 
 - Users can right-click CAD files in Google Drive
-- Select "Open with" → "DWG Viewer for Google Drive"
+- Select "Open with" → "CAD Viewer"
 - The app opens with the selected file loaded
-
-### URL parameters (route `/`)
-
-The default page accepts query parameters so that opening a link (e.g. from Drive or a shared link) can open a specific file directly.
-
-| Parameter   | Required | Description |
-|-------------|----------|-------------|
-| `fileId`   | Yes      | Google Drive file ID. |
-| `fileName` | No       | File name for display before metadata is fetched. |
-| `mimeType` | No       | MIME type hint (e.g. `application/acad`). |
-
-**Examples:**
-
-- Open by file ID:  
-  `https://your-domain.com/?fileId=1abc...`
-- Open with optional fileName and MIME type:  
-  `https://your-domain.com/?fileId=1abc...&fileName=drawing.dwg&mimeType=application/acad`
-
-Only the root route (`/`) reads these parameters;
 
 ## Security
 
