@@ -166,7 +166,7 @@ onUnmounted(() => {
 <style scoped>
 .local-file-view {
   height: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--footer-height, 50px));
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

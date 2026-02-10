@@ -130,7 +130,7 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 
 <style scoped>
 .privacy-page {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--footer-height, 50px));
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

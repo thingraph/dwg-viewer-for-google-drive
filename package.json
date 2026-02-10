@@ -44,9 +44,9 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^11.1.0",
-    "@x-viewer/core": "^0.19.6",
-    "@x-viewer/plugins": "^0.11.2",
-    "@x-viewer/ui": "^0.10.1",
+    "@x-viewer/core": "^0.20.0",
+    "@x-viewer/plugins": "^0.12.0",
+    "@x-viewer/ui": "^0.11.0",
     "element-plus": "^2.9.1",
     "vue": "^3.4.21",
     "vue-i18n": "^10.0.1",
@@ -55,9 +55,9 @@
   },
   "pnpm": {
     "overrides": {
-      "@x-viewer/plugins>@x-viewer/core": "^0.19.6",
-      "@x-viewer/plugins>@x-viewer/ui": "^0.10.1",
-      "@x-viewer/ui>@x-viewer/core": "^0.19.6"
+      "@x-viewer/plugins>@x-viewer/core": "^0.20.0",
+      "@x-viewer/plugins>@x-viewer/ui": "^0.11.0",
+      "@x-viewer/ui>@x-viewer/core": "^0.20.0"
     }
   }
 }

@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@x-viewer/plugins>@x-viewer/core': ^0.19.6
-  '@x-viewer/plugins>@x-viewer/ui': ^0.10.1
-  '@x-viewer/ui>@x-viewer/core': ^0.19.6
+  '@x-viewer/plugins>@x-viewer/core': ^0.20.0
+  '@x-viewer/plugins>@x-viewer/ui': ^0.11.0
+  '@x-viewer/ui>@x-viewer/core': ^0.20.0
 
 importers:
 
@@ -20,14 +20,14 @@ importers:
         specifier: ^11.1.0
         version: 11.3.0(vue@3.5.18(typescript@5.9.2))
       '@x-viewer/core':
-        specifier: ^0.19.6
-        version: 0.19.6
+        specifier: ^0.20.0
+        version: 0.20.0
       '@x-viewer/plugins':
-        specifier: ^0.11.2
-        version: 0.11.2
+        specifier: ^0.12.0
+        version: 0.12.0
       '@x-viewer/ui':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^0.11.0
+        version: 0.11.0
       element-plus:
         specifier: ^2.9.1
         version: 2.10.7(vue@3.5.18(typescript@5.9.2))
@@ -988,14 +988,14 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
-  '@x-viewer/core@0.19.6':
-    resolution: {integrity: sha512-b/1GYiPalWB7/FrKnfbwZGm4R8TIEcwTevblOvVCkzH0YrWOrgCw1Uqvz8QzPfB1DwDTKSlDc+rLbb0OyDgsAQ==}
+  '@x-viewer/core@0.20.0':
+    resolution: {integrity: sha512-/qxbeHmgOSLetcNdR0eK9w84lfVNJ73dgBcApL8l7lrYSUsCMgKRsDQMuaU6sXt0ocTh97iWkAaPtJcI++K5Qg==}
 
-  '@x-viewer/plugins@0.11.2':
-    resolution: {integrity: sha512-jfMtnc8X62BCJcB3qmpIm0yYg+n0j/cmGtniJ9N3pvp0/lG1xVYKAN0jpc5yuhNNNFgRK17200hja7+e4HPBSg==}
+  '@x-viewer/plugins@0.12.0':
+    resolution: {integrity: sha512-2B4GcOKGjKrKrQ2TKDOfdUa5Iq/vFxHrYJH8n1Lw4siCaqoJHNrao5RLFWDXSpjEIyN1gYliEZsBtrMnEXxcLg==}
 
-  '@x-viewer/ui@0.10.1':
-    resolution: {integrity: sha512-rM+oTwiBXFggaUXhgE/5rdOk7z98902OLc+a2rBVIUkrdKG8cjSW53BHNZBkqAJHgJMYIwHDmlOXqeM1TbXsYQ==}
+  '@x-viewer/ui@0.11.0':
+    resolution: {integrity: sha512-XNLlbIG2BjXeuLp9PkzHEjQHBLtegDyik70m6boE2S4W4rs5mv27QMq6sbOL7JHvMtheoJ86gaIajV2s/WhJkg==}
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -3689,7 +3689,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@x-viewer/core@0.19.6':
+  '@x-viewer/core@0.20.0':
     dependencies:
       2d-polygon-boolean: 1.0.1
       2d-polygon-self-intersections: 1.3.1
@@ -3717,10 +3717,10 @@ snapshots:
       three: 0.182.0
       three-mesh-bvh: 0.5.24(three@0.182.0)
 
-  '@x-viewer/plugins@0.11.2':
+  '@x-viewer/plugins@0.12.0':
     dependencies:
-      '@x-viewer/core': 0.19.6
-      '@x-viewer/ui': 0.10.1
+      '@x-viewer/core': 0.20.0
+      '@x-viewer/ui': 0.11.0
       clipper-lib: 6.4.2
       dat.gui: 0.7.9
       mitt: 3.0.1
@@ -3731,9 +3731,9 @@ snapshots:
       - encoding
       - supports-color
 
-  '@x-viewer/ui@0.10.1':
+  '@x-viewer/ui@0.11.0':
     dependencies:
-      '@x-viewer/core': 0.19.6
+      '@x-viewer/core': 0.20.0
 
   abbrev@1.1.1:
     optional: true

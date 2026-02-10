@@ -40,6 +40,8 @@
   color: #666;
   background: #f5f5f5;
   border-top: 1px solid #eee;
+  height: 35px;
+  box-sizing: border-box;
 }
 
 .app-footer a {
@@ -53,6 +55,10 @@
 </style>
 
 <style>
+:root {
+  --footer-height: 35px;
+}
+
 .app-main > .home-view,
 .app-main > .local-file-view {
   flex: 1;
