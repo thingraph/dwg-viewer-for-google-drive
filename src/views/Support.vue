@@ -73,9 +73,9 @@
         <div class="faq-item">
           <h3>What permissions does the app request?</h3>
           <p>
-            The app requests permission to access files you explicitly select via the Google Drive™ file picker. It does
-            <strong>not</strong> have access to browse all your Drive files automatically. You maintain full control over
-            which files are accessed.
+            The app requests read-only access to your Google Drive™ files (<code>drive.readonly</code> scope). This allows
+            the app to read files you select via the Google Drive™ file picker or open directly from Google Drive™. The app
+            has read-only access and cannot modify or delete your files.
           </p>
         </div>
 

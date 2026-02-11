@@ -137,7 +137,7 @@ const {
 
 .sign-out-btn {
   flex-shrink: 0;
-  padding: 8px 12px;
+  padding: 8px 4px;
   font-size: 12px;
 }
 </style>

@@ -30,9 +30,9 @@
             password.
           </li>
           <li>
-            <strong>Drive file access:</strong> We request permission to read file metadata and file content
-            only for the files you choose to open in the viewer. File content is loaded in your browser and is
-            not sent to our servers for storage.
+            <strong>Drive file access:</strong> We request read-only permission (<code>drive.readonly</code> scope) to read
+            file metadata and file content from your Google Drive™. File content is loaded in your browser and is not sent
+            to our servers for storage. The app cannot modify or delete your files.
           </li>
           <li>
             <strong>Local storage:</strong> We may store tokens or preferences in your browser (e.g. for

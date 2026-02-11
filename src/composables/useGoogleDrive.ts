@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ''
 // const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file'
-const SCOPES = 'https://www.googleapis.com/auth/drive.file'
+const SCOPES = 'https://www.googleapis.com/auth/drive.readonly'
 
 // interface UserInfo {
 //   name: string
@@ -97,7 +97,21 @@ export function useGoogleDrive() {
   const handleTokenResponse = (response: any) => {
     if (response.error) {
       console.error('Authentication error:', response.error)
+      // Clear saved token on error
+      localStorage.removeItem('google_drive_token')
       return
+    }
+
+    // Save token to localStorage for persistence
+    if (response.access_token) {
+      const tokenData = {
+        access_token: response.access_token,
+        expires_in: response.expires_in,
+        scope: response.scope,
+        token_type: response.token_type,
+        saved_at: Date.now()
+      }
+      localStorage.setItem('google_drive_token', JSON.stringify(tokenData))
     }
 
     // Get user info
@@ -140,6 +154,9 @@ export function useGoogleDrive() {
       google.accounts.oauth2.revoke(token.access_token)
       gapi.client.setToken('')
     }
+
+    // Clear saved token from localStorage
+    localStorage.removeItem('google_drive_token')
 
     isAuthenticated.value = false
     // userInfo.name = ''
@@ -258,7 +275,7 @@ export function useGoogleDrive() {
     }
   }
 
-  // Google Drive Picker API - allows user to select a file without drive.readonly permission
+  // Google Drive Picker API - allows user to select a file from Google Drive™
   const openFilePicker = async (): Promise<DriveFile> => {
     if (!isAuthenticated.value) {
       throw new Error('Please authenticate first')
@@ -337,8 +354,54 @@ export function useGoogleDrive() {
     }
   }
 
+  // Restore authentication from localStorage
+  const restoreAuth = async () => {
+    try {
+      const savedTokenStr = localStorage.getItem('google_drive_token')
+      if (!savedTokenStr) {
+        return false
+      }
+
+      const savedToken = JSON.parse(savedTokenStr)
+
+      // Check if token is expired (with 5 minute buffer)
+      const expiresIn = savedToken.expires_in || 3600 // Default to 1 hour
+      const savedAt = savedToken.saved_at || 0
+      const now = Date.now()
+      const elapsedSeconds = (now - savedAt) / 1000
+
+      if (elapsedSeconds >= expiresIn - 300) { // 5 minute buffer
+        // Token expired, remove it
+        localStorage.removeItem('google_drive_token')
+        return false
+      }
+
+      // Initialize APIs first
+      await initializeGoogleAPIs()
+
+      // Restore token to gapi client
+      const token = {
+        access_token: savedToken.access_token,
+        expires_in: expiresIn - elapsedSeconds,
+        scope: savedToken.scope,
+        token_type: savedToken.token_type || 'Bearer'
+      }
+
+      gapi.client.setToken(token)
+      isAuthenticated.value = true
+      return true
+    } catch (error) {
+      console.error('Error restoring authentication:', error)
+      localStorage.removeItem('google_drive_token')
+      return false
+    }
+  }
+
   // Initialize Drive App integration
-  onMounted(() => {
+  onMounted(async () => {
+    // Try to restore authentication from localStorage
+    await restoreAuth()
+
     // Check if we're being opened as a Drive App
     const urlParams = new URLSearchParams(window.location.search)
     const action = urlParams.get('action')
