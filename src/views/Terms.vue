@@ -6,7 +6,7 @@
         <router-link to="/" class="header-link">
           <el-button type="primary" text>
             <el-icon><ArrowLeft /></el-icon>
-            Back to Google Drive
+            Back to Google Drive™
           </el-button>
         </router-link>
       </div>
@@ -15,7 +15,7 @@
     <div class="terms-content">
       <p class="intro">
         These Terms of Service (“Terms”) govern your access to and use of
-        <strong>DWG Viewer for Google Drive</strong> (“the Service”). By using the Service, you agree to these Terms
+        <strong>DWG Viewer for Google Drive™</strong> ("the Service"). By using the Service, you agree to these Terms
         and acknowledge having read our <router-link to="/privacy">Privacy Policy</router-link>. If you do not agree,
         please do not use the Service.
       </p>
@@ -23,8 +23,8 @@
       <section>
         <h2>1. Definitions</h2>
         <p>
-          <strong>“Service”</strong> means the DWG Viewer for Google Drive application that allows you to view DWG and
-          DXF files from your Google Drive. <strong>“You”</strong> and <strong>“Your”</strong> refer to the person or
+          <strong>"Service"</strong> means the DWG Viewer for Google Drive™ application that allows you to view DWG and
+          DXF files from your Google Drive™. <strong>"You"</strong> and <strong>"Your"</strong> refer to the person or
           entity using the Service. <strong>“We”</strong>, <strong>“Us”</strong>, and <strong>“Our”</strong> refer to the
           provider of the Service.
         </p>
@@ -34,10 +34,10 @@
         <h2>2. Description of the Service</h2>
         <p>
           Subject to your compliance with these Terms, we grant you a limited, non-exclusive, revocable license to use
-          the Service for viewing DWG and DXF files from your Google Drive. The Service provides:
+          the Service for viewing DWG and DXF files from your Google Drive™. The Service provides:
         </p>
         <ul>
-          <li>Authentication with your Google account to access your Google Drive</li>
+          <li>Authentication with your Google account to access your Google Drive™</li>
           <li>Listing and selection of DWG/DXF files from your Drive</li>
           <li>In-browser viewing of selected files (file content is processed locally in your browser and is not stored on our servers)</li>
           <li>Optional local file viewing for DWG/DXF files on your device</li>
@@ -67,7 +67,7 @@
       <section>
         <h2>4. Third-Party Services</h2>
         <p>
-          The Service uses Google APIs (including the Google Drive API). Your use of the Service is also subject to
+          The Service uses Google APIs (including the Google Drive™ API). Your use of the Service is also subject to
           <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Google’s Terms of Service</a>
           and
           <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google’s Privacy Policy</a>.
@@ -81,7 +81,7 @@
         <p>
           Except for the limited license granted above, all rights in the Service (including software, design, and
           branding) remain with us. You retain all rights to your own data and files. We do not claim ownership of any
-          content you view or store in Google Drive or on your device.
+          content you view or store in Google Drive™ or on your device.
         </p>
       </section>
 
@@ -129,10 +129,16 @@
         <p>
           If you have questions about these Terms, please contact us at the email or address provided in the application
           or on the project repository.
-        </p>
-      </section>
+          </p>
+        </section>
+
+        <section class="trademark-notice">
+          <p style="font-size: 12px; color: #999; margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee;">
+            Google Drive™ is a trademark of Google LLC.
+          </p>
+        </section>
+      </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

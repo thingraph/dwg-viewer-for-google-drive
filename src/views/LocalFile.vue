@@ -6,7 +6,7 @@
         <router-link to="/" class="header-link">
           <el-button type="primary" text>
             <el-icon><ArrowLeft /></el-icon>
-            Back to Google Drive
+            Back to Google Drive™
           </el-button>
         </router-link>
       </div>

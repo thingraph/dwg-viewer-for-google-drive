@@ -4,7 +4,7 @@
       <template #header>
         <div class="card-header">
           <el-icon><FolderOpened /></el-icon>
-          <span>Google Drive Integration</span>
+          <span>Google Drive™ Integration</span>
         </div>
       </template>
 
@@ -18,14 +18,14 @@
             class="auth-button"
           >
             <el-icon><FolderOpened /></el-icon>
-            &nbsp;Connect Google Drive
+            &nbsp;Connect Google Drive™
           </el-button>
         </div>
 
         <div v-else class="auth-success">
           <div class="auth-status">
             <el-alert
-              title="Connected to Google Drive"
+              title="Connected to Google Drive™"
               type="success"
               :closable="false"
               show-icon

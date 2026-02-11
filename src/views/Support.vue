@@ -6,7 +6,7 @@
         <router-link to="/" class="header-link">
           <el-button type="primary" text>
             <el-icon><ArrowLeft /></el-icon>
-            Back to Google Drive
+            Back to Google Drive™
           </el-button>
         </router-link>
       </div>
@@ -14,7 +14,7 @@
 
     <div class="support-content">
       <p class="intro">
-        Welcome to the <strong>DWG Viewer for Google Drive</strong> support page. Here you'll find answers to common
+        Welcome to the <strong>DWG Viewer for Google Drive™</strong> support page. Here you'll find answers to common
         questions, usage guides, and troubleshooting tips. If you need additional help, please don't hesitate to
         <a href="mailto:thingraph@outlook.com">contact us</a>.
       </p>
@@ -24,11 +24,11 @@
         <h3>How to Use the Application</h3>
         <ol>
           <li>
-            <strong>Connect to Google Drive:</strong> Click the "Connect Google Drive" button to authenticate with your
-            Google account. You'll be asked to grant permission to access your Google Drive files.
+            <strong>Connect to Google Drive™:</strong> Click the "Connect Google Drive™" button to authenticate with your
+            Google account. You'll be asked to grant permission to access your Google Drive™ files.
           </li>
           <li>
-            <strong>Select a File:</strong> After connecting, click "Choose File from Google Drive" to open the file
+            <strong>Select a File:</strong> After connecting, click "Choose File from Google Drive™" to open the file
             picker. Browse and select a DWG or DXF file from your Drive.
           </li>
           <li>
@@ -73,7 +73,7 @@
         <div class="faq-item">
           <h3>What permissions does the app request?</h3>
           <p>
-            The app requests permission to access files you explicitly select via the Google Drive file picker. It does
+            The app requests permission to access files you explicitly select via the Google Drive™ file picker. It does
             <strong>not</strong> have access to browse all your Drive files automatically. You maintain full control over
             which files are accessed.
           </p>
@@ -82,7 +82,7 @@
         <div class="faq-item">
           <h3>Can I use this offline?</h3>
           <p>
-            The application requires an internet connection to authenticate with Google Drive and load files. However,
+            The application requires an internet connection to authenticate with Google Drive™ and load files. However,
             once a file is loaded, you can view it without additional network requests (until you refresh the page).
           </p>
         </div>
@@ -113,7 +113,7 @@
 
         <div class="troubleshooting-item">
           <h3>Authentication Issues</h3>
-          <p><strong>Problem:</strong> Unable to connect to Google Drive or authentication fails.</p>
+          <p><strong>Problem:</strong> Unable to connect to Google Drive™ or authentication fails.</p>
           <p><strong>Solutions:</strong></p>
           <ul>
             <li>Make sure you're using a supported browser (Chrome, Firefox, Edge, Safari)</li>
@@ -131,7 +131,7 @@
           <ul>
             <li>Verify the file is a valid DWG or DXF file</li>
             <li>Check that the file isn't corrupted or password-protected</li>
-            <li>Ensure you have permission to access the file in Google Drive</li>
+            <li>Ensure you have permission to access the file in Google Drive™</li>
             <li>Try refreshing the page and selecting the file again</li>
             <li>For very large files, loading may take longer - please be patient</li>
           </ul>
@@ -152,7 +152,7 @@
 
         <div class="troubleshooting-item">
           <h3>File Picker Not Opening</h3>
-          <p><strong>Problem:</strong> Google Drive file picker doesn't appear.</p>
+          <p><strong>Problem:</strong> Google Drive™ file picker doesn't appear.</p>
           <p><strong>Solutions:</strong></p>
           <ul>
             <li>Check that pop-up blockers are disabled for this site</li>
@@ -241,11 +241,17 @@
           </li>
           <li>
             <a href="https://developers.google.com/drive" target="_blank" rel="noopener noreferrer">
-              Google Drive API Documentation
+              Google Drive™ API Documentation
             </a>
-            - Learn more about Google Drive integration
+            - Learn more about Google Drive™ integration
           </li>
         </ul>
+      </section>
+
+      <section class="trademark-notice">
+        <p style="font-size: 12px; color: #999; margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee;">
+          Google Drive™ is a trademark of Google LLC.
+        </p>
       </section>
     </div>
   </div>

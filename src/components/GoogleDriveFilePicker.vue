@@ -4,13 +4,13 @@
       <template #header>
         <div class="card-header">
           <el-icon><FolderOpened /></el-icon>
-          <span>Select DWG/DXF File from Google Drive</span>
+          <span>Select DWG/DXF File from Google Drive™</span>
         </div>
       </template>
 
       <div class="picker-content">
         <div class="picker-prompt">
-          <p>Click the button below to open Google Drive file picker and select a DWG or DXF file to view.</p>
+          <p>Click the button below to open Google Drive™ file picker and select a DWG or DXF file to view.</p>
           <el-button
             type="primary"
             size="large"
@@ -20,7 +20,7 @@
             class="pick-button"
           >
             <el-icon><FolderOpened /></el-icon>
-            &nbsp;Choose File from Google Drive
+            &nbsp;Choose File from Google Drive™
           </el-button>
         </div>
 
@@ -89,7 +89,7 @@ const error = ref('')
 
 const handlePickFile = async () => {
   if (!isAuthenticated.value) {
-    error.value = 'Please connect to Google Drive first'
+    error.value = 'Please connect to Google Drive™ first'
     return
   }
 

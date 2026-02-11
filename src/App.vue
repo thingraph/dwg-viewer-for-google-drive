@@ -8,6 +8,8 @@
       <a href="mailto:thingraph@outlook.com">thingraph@outlook.com</a>
       &nbsp;|&nbsp;
       <a href="https://github.com/thingraph/dwg-viewer-example" target="_blank" rel="noopener noreferrer">GitHub</a>
+      &nbsp;|&nbsp;
+      <span style="font-size: 11px; color: #999;">Google Drive™ is a trademark of Google LLC.</span>
     </footer>
   </div>
 </template>

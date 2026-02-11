@@ -1,6 +1,6 @@
-# DWG Viewer for Google Drive
+# DWG Viewer for Google Drive™
 
-A modern web application that integrates Google Drive with a powerful DWG viewer, allowing you to view DWG/DXF files directly from your Google Drive.
+A modern web application that integrates Google Drive™ with a powerful DWG viewer, allowing you to view DWG/DXF files directly from your Google Drive™.
 
 ## Supported File Formats
 
@@ -37,7 +37,7 @@ pnpm install
    - Create a new project or select an existing one
 
 2. **Enable Required APIs**:
-   - Enable **Google Drive API**
+   - Enable **Google Drive™ API**
    - Enable **Google Picker API** (important for file picker functionality)
    - Enable **Google Identity Services** (for OAuth)
 
@@ -48,7 +48,7 @@ pnpm install
    - For API Key restrictions:
      - Application restrictions: HTTP referrers (web sites)
      - Add your domain (e.g., `localhost:5173` for development, your production domain)
-     - API restrictions: Restrict to "Google Picker API" and "Google Drive API"
+     - API restrictions: Restrict to "Google Picker API" and "Google Drive™ API"
 
 4. **Set Environment Variables**:
    Create a `.env` file in the project root:
@@ -93,31 +93,31 @@ pnpm preview
 ## Usage
 
 ### Standard Mode (File Picker)
-1. **Authentication**: Click "Connect Google Drive" to authenticate with your Google account
-2. **Select File**: Click "Choose File from Google Drive" to open the Google Drive file picker
-3. **Pick File**: Select a DWG or DXF file from your Google Drive
+1. **Authentication**: Click "Connect Google Drive™" to authenticate with your Google account
+2. **Select File**: Click "Choose File from Google Drive™" to open the Google Drive™ file picker
+3. **Pick File**: Select a DWG or DXF file from your Google Drive™
 4. **View File**: The selected file will be loaded in the integrated viewer
 5. **Navigation**: Use the CAD viewer's built-in navigation tools to zoom, pan, and explore the drawing
 
-### Google Drive App Mode
-1. **Install App**: Install the CAD Viewer as a Google Drive App
-2. **Open Files**: Right-click on CAD files in Google Drive
+### Google Drive™ App Mode
+1. **Install App**: Install the CAD Viewer as a Google Drive™ App
+2. **Open Files**: Right-click on CAD files in Google Drive™
 3. **Select App**: Choose "Open with" → "CAD Viewer"
 4. **View**: The file opens directly in the CAD viewer
 
 
 ## API Permissions
 
-The application requests the following Google Drive permissions:
-- `https://www.googleapis.com/auth/drive.file` - Access to files that the user explicitly selects via Google Drive Picker
+The application requests the following Google Drive™ permissions:
+- `https://www.googleapis.com/auth/drive.file` - Access to files that the user explicitly selects via Google Drive™ Picker
 
-**Note**: The application uses Google Drive Picker API, which means it can only access files that users explicitly select. It does not have access to browse or list all files in the user's Drive, providing better privacy and security.
+**Note**: The application uses Google Drive™ Picker API, which means it can only access files that users explicitly select. It does not have access to browse or list all files in the user's Drive, providing better privacy and security.
 
-## Google Drive App Integration
+## Google Drive™ App Integration
 
-This application can be registered as a Google Drive App to handle CAD files directly. When properly configured:
+This application can be registered as a Google Drive™ App to handle CAD files directly. When properly configured:
 
-- Users can right-click CAD files in Google Drive
+- Users can right-click CAD files in Google Drive™
 - Select "Open with" → "CAD Viewer"
 - The app opens with the selected file loaded
 
@@ -125,7 +125,7 @@ This application can be registered as a Google Drive App to handle CAD files dir
 
 - All authentication is handled securely through Google's OAuth 2.0 flow
 - API credentials are stored as environment variables
-- The application uses Google Drive Picker API - users must explicitly select files to view
+- The application uses Google Drive™ Picker API - users must explicitly select files to view
 - Only files selected by the user can be accessed (no browsing of all Drive files)
 - No file data is stored locally or transmitted to third-party servers
 
@@ -149,4 +149,8 @@ MIT License - see the main project LICENSE file for details.
 ## Acknowledgments
 
 - [Element Plus](https://element-plus.org/) - Vue 3 UI framework
-- [Google Drive API](https://developers.google.com/drive) - Google Drive integration
+- [Google Drive™ API](https://developers.google.com/drive) - Google Drive™ integration
+
+---
+
+**Trademark Notice**: Google Drive™ is a trademark of Google LLC.

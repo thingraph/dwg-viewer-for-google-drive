@@ -6,7 +6,7 @@
         <router-link to="/" class="header-link">
           <el-button type="primary" text>
             <el-icon><ArrowLeft /></el-icon>
-            Back to Google Drive
+            Back to Google Drive™
           </el-button>
         </router-link>
       </div>
@@ -15,18 +15,18 @@
     <div class="privacy-content">
       <p class="intro">
         This Privacy Policy explains how we collect, use, and protect information when you use
-        <strong>DWG Viewer for Google Drive</strong> (“the Service”). By using the Service, you agree to this policy.
+        <strong>DWG Viewer for Google Drive™</strong> ("the Service"). By using the Service, you agree to this policy.
       </p>
 
       <section>
         <h2>1. Information We Collect</h2>
         <p>
-          The Service allows you to view DWG and DXF files from your Google Drive. To provide this functionality:
+          The Service allows you to view DWG and DXF files from your Google Drive™. To provide this functionality:
         </p>
         <ul>
           <li>
             <strong>Google Account:</strong> When you sign in, we use Google OAuth to access your Google account
-            only for the purpose of listing and opening files from your Google Drive. We do not store your Google
+            only for the purpose of listing and opening files from your Google Drive™. We do not store your Google
             password.
           </li>
           <li>
@@ -58,7 +58,7 @@
           We do not sell your personal information. We may share information only:
         </p>
         <ul>
-          <li>With Google, as necessary to provide the Google Drive integration (subject to
+          <li>With Google, as necessary to provide the Google Drive™ integration (subject to
             <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google’s Privacy Policy</a>)
           </li>
           <li>With service providers that host or operate the Service, under strict confidentiality</li>
@@ -91,7 +91,7 @@
       <section>
         <h2>6. Third-Party Services</h2>
         <p>
-          The Service uses Google APIs (e.g. Google Drive API). Your use of the Service is also subject to
+          The Service uses Google APIs (e.g. Google Drive™ API). Your use of the Service is also subject to
           Google’s Privacy Policy and Terms of Service. We encourage you to review them.
         </p>
       </section>
@@ -117,11 +117,17 @@
         <h2>9. Contact Us</h2>
         <p>
           If you have questions about this Privacy Policy or your personal data, please contact us at the
-          email or address provided in the application or on the project repository.
-        </p>
-      </section>
+            email or address provided in the application or on the project repository.
+          </p>
+        </section>
+
+        <section class="trademark-notice">
+          <p style="font-size: 12px; color: #999; margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee;">
+            Google Drive™ is a trademark of Google LLC.
+          </p>
+        </section>
+      </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

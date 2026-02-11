@@ -1,7 +1,7 @@
 <template>
   <div class="home-view">
     <div class="app-header">
-      <h1>DWG Viewer for Google Drive</h1>
+      <h1>DWG Viewer for Google Drive™</h1>
       <div class="header-actions">
         <router-link to="/privacy" class="header-link">Privacy</router-link>
         <router-link to="/terms" class="header-link">Terms</router-link>
@@ -43,7 +43,7 @@
             </div>
 
             <div v-else class="welcome-message">
-              <el-empty description="Select a DWG/DXF file from Google Drive to view it" />
+              <el-empty description="Select a DWG/DXF file from Google Drive™ to view it" />
             </div>
           </div>
         </div>
