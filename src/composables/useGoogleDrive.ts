@@ -246,7 +246,9 @@ export function useGoogleDrive() {
       )
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch file: ${response.statusText}`)
+        const statusCode = response.status
+        const statusText = response.statusText
+        throw new Error(`Failed to fetch file (${statusCode} ${statusText})`)
       }
 
       return await response.arrayBuffer()

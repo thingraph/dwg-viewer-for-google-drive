@@ -21,6 +21,12 @@
           <span>Loading...</span>
         </div>
 
+        <!-- Error indicator below header, centered -->
+        <div v-if="fileLoadError" class="error-indicator">
+          <el-icon class="error-icon" size="24"><Warning /></el-icon>
+          <span>{{ fileLoadError }}</span>
+        </div>
+
         <div class="viewer-container">
           <div class="sidebar">
             <!-- Google Drive Auth - always shown at top -->
@@ -53,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { Loading } from '@element-plus/icons-vue'
+import { Loading, Warning } from '@element-plus/icons-vue'
 import { Model2dConfig, Viewer2d, Viewer2dConfig } from '@x-viewer/core'
 import {
   AxisGizmoPlugin,
@@ -97,6 +103,7 @@ const fileUrl = ref<string>('')
 const viewerContainer = ref<HTMLElement | null>(null)
 const viewer = ref<Viewer2d | null>(null)
 const layerManagerPlugin = ref<LayerManagerPlugin | null>(null)
+const fileLoadError = ref<string>('')
 
 const cleanupBlobUrl = () => {
   if (fileUrl.value && fileUrl.value.startsWith('blob:')) {
@@ -112,13 +119,15 @@ const cleanupViewer = () => {
 }
 
 const loadFileAsBlob = async (fileId: string) => {
+  fileLoadError.value = ''
   try {
     const fileContent = await getFileContent(fileId)
     const blob = new Blob([fileContent])
     const blobUrl = URL.createObjectURL(blob)
     fileUrl.value = blobUrl
   } catch (error) {
-    console.error('Error getting file content:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch file'
+    fileLoadError.value = `Error getting file content: ${errorMessage}`
   }
 }
 
@@ -197,6 +206,7 @@ watch([fileUrl, viewerContainer], async ([url, container]) => {
 }, { immediate: true })
 
 const handleFileSelected = async (file: DriveFile) => {
+  fileLoadError.value = ''
   selectedFile.value = file
   cleanupBlobUrl()
   fileUrl.value = ''
@@ -206,6 +216,7 @@ const handleFileSelected = async (file: DriveFile) => {
 
 watch(currentFile, async (file) => {
   if (file) {
+    fileLoadError.value = ''
     cleanupBlobUrl()
     fileUrl.value = ''
     cleanupViewer()
@@ -334,6 +345,28 @@ onUnmounted(() => {
   z-index: 100;
   pointer-events: none;
   font-weight: 500;
+}
+
+.error-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  font-size: 16px;
+  color: #F56C6C;
+  z-index: 100;
+  pointer-events: none;
+  font-weight: 500;
+}
+
+.error-icon {
+  color: #F56C6C;
+  animation: none;
 }
 
 .viewer-container {
