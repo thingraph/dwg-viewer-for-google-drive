@@ -310,9 +310,10 @@ export function useGoogleDrive() {
       }
 
       // Create a DocsView with MIME type filtering
-      // DocsView defaults to list view, no need to set mode explicitly
       const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
       docsView.setMimeTypes('application/acad,application/dxf,image/vnd.dwg,image/vnd.dxf,application/autocad_dwg,application/autocad_dxf')
+      // Set to list view mode
+      docsView.setMode('list') // 'grid'
 
       const picker = new google.picker.PickerBuilder()
         .setOAuthToken(accessToken)
