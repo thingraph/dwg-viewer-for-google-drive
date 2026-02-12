@@ -102,8 +102,9 @@ const handlePickFile = async () => {
     // Automatically emit fileSelected event to display the file immediately
     emit('fileSelected', file)
   } catch (err: any) {
-    console.error('Error picking file:', err)
-    if (err.message !== 'User cancelled file selection') {
+    if (err.message === 'User cancelled file selection') {
+      console.log(err.message)
+    } else {
       error.value = err.message || 'Failed to select file. Please try again.'
       // Only clear selectedFile on actual errors, not on user cancellation
       // This preserves the file info display when user cancels the picker

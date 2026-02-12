@@ -316,6 +316,9 @@ export function useGoogleDrive() {
       docsView.setMode('list') // 'grid'
 
       const picker = new google.picker.PickerBuilder()
+        .enableFeature(google.picker.Feature.NAV_HIDDEN)
+        // .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+        .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
         .setOAuthToken(accessToken)
         .setDeveloperKey(API_KEY)
         .addView(docsView)
