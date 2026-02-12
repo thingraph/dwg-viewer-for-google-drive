@@ -45,7 +45,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^11.1.0",
     "@x-viewer/core": "^0.20.0",
-    "@x-viewer/plugins": "^0.12.0",
+    "@x-viewer/plugins": "^0.12.1",
     "@x-viewer/ui": "^0.11.0",
     "element-plus": "^2.9.1",
     "vue": "^3.4.21",

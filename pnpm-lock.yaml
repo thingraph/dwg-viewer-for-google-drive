@@ -23,8 +23,8 @@ importers:
         specifier: ^0.20.0
         version: 0.20.0
       '@x-viewer/plugins':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.12.1
+        version: 0.12.1
       '@x-viewer/ui':
         specifier: ^0.11.0
         version: 0.11.0
@@ -991,8 +991,8 @@ packages:
   '@x-viewer/core@0.20.0':
     resolution: {integrity: sha512-/qxbeHmgOSLetcNdR0eK9w84lfVNJ73dgBcApL8l7lrYSUsCMgKRsDQMuaU6sXt0ocTh97iWkAaPtJcI++K5Qg==}
 
-  '@x-viewer/plugins@0.12.0':
-    resolution: {integrity: sha512-2B4GcOKGjKrKrQ2TKDOfdUa5Iq/vFxHrYJH8n1Lw4siCaqoJHNrao5RLFWDXSpjEIyN1gYliEZsBtrMnEXxcLg==}
+  '@x-viewer/plugins@0.12.1':
+    resolution: {integrity: sha512-APoJ6K2h5swtX1OvZ7vCcX5P+TO2pHPDWbMWJoZOHTZ6vjzWt8wimE/KeYrA5unbiloTLX4w4kg2UIWt/8zUeA==}
 
   '@x-viewer/ui@0.11.0':
     resolution: {integrity: sha512-XNLlbIG2BjXeuLp9PkzHEjQHBLtegDyik70m6boE2S4W4rs5mv27QMq6sbOL7JHvMtheoJ86gaIajV2s/WhJkg==}
@@ -3717,7 +3717,7 @@ snapshots:
       three: 0.182.0
       three-mesh-bvh: 0.5.24(three@0.182.0)
 
-  '@x-viewer/plugins@0.12.0':
+  '@x-viewer/plugins@0.12.1':
     dependencies:
       '@x-viewer/core': 0.20.0
       '@x-viewer/ui': 0.11.0
