@@ -75,6 +75,7 @@ interface DriveFile {
   size: string
   lastEditedUtc: string
   mimeType: string
+  url: string
 }
 
 const emit = defineEmits<{
