@@ -260,8 +260,11 @@ export function useGoogleDrive() {
         `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
         {
           headers: {
-            Authorization: `Bearer ${token.access_token}`
-          }
+            Authorization: `Bearer ${token.access_token}`,
+            Accept: 'application/octet-stream',
+          },
+          credentials: 'omit',
+          mode: 'cors',
         }
       )
 
