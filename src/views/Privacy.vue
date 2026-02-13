@@ -30,7 +30,7 @@
             password.
           </li>
           <li>
-            <strong>Drive file access:</strong> We request read-only permission (<code>drive.readonly</code> scope) to read
+            <strong>Drive file access:</strong> We request permission (<code>drive.file</code> scope) to read
             file metadata and file content from your Google Drive™. File content is loaded in your browser and is not sent
             to our servers for storage. The app cannot modify or delete your files.
           </li>

@@ -3,8 +3,8 @@ import { onMounted, ref } from 'vue'
 // Google Drive API configuration
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ''
-// const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file'
-const SCOPES = 'https://www.googleapis.com/auth/drive.readonly'
+// const SCOPES = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.readonly'
+const SCOPES = 'https://www.googleapis.com/auth/drive.file'
 
 // interface UserInfo {
 //   name: string
