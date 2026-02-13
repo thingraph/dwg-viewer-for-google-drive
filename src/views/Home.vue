@@ -83,8 +83,9 @@ interface DriveFile {
   id: string
   name: string
   size: string
-  modifiedTime: string
+  lastEditedUtc: string
   mimeType: string
+  url: string
 }
 
 const route = useRoute()

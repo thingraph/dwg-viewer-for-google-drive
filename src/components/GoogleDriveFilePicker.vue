@@ -41,8 +41,8 @@
               <div class="file-name">{{ selectedFile.name }}</div>
               <div class="file-meta">
                 <span v-if="selectedFile.size !== '0'">{{ formatFileSize(selectedFile.size) }}</span>
-                <span v-if="selectedFile.size !== '0' && selectedFile.modifiedTime"> • </span>
-                <span v-if="selectedFile.modifiedTime">{{ formatDate(selectedFile.modifiedTime) }}</span>
+                <span v-if="selectedFile.size !== '0' && selectedFile.lastEditedUtc"> • </span>
+                <span v-if="selectedFile.lastEditedUtc">{{ formatDate(selectedFile.lastEditedUtc) }}</span>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ interface DriveFile {
   id: string
   name: string
   size: string
-  modifiedTime: string
+  lastEditedUtc: string
   mimeType: string
 }
 

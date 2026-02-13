@@ -105,8 +105,9 @@ declare namespace gapi {
               id: string
               name: string
               size: string
-              modifiedTime: string
+              lastEditedUtc: string
               mimeType: string
+              url: string
             }>
             nextPageToken?: string
           }

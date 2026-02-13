@@ -16,8 +16,9 @@ interface DriveFile {
   id: string
   name: string
   size: string
-  modifiedTime: string
+  lastEditedUtc: string
   mimeType: string
+  url: string
 }
 
 
@@ -193,8 +194,9 @@ export function useGoogleDrive() {
           id: action.fileId,
           name: action.fileName || 'Unknown File',
           size: '0',
-          modifiedTime: '',
-          mimeType: action.mimeType || ''
+          lastEditedUtc: '',
+          mimeType: action.mimeType || '',
+          url: ''
         }
       }
     } catch (error) {
@@ -206,15 +208,16 @@ export function useGoogleDrive() {
     try {
       const response = await gapi.client.drive.files.get({
         fileId: fileId,
-        fields: 'id,name,size,modifiedTime,mimeType'
+        fields: 'id,name,size,lastEditedUtc,mimeType'
       })
 
       return {
         id: response.result.id!,
         name: response.result.name!,
         size: response.result.size || '0',
-        modifiedTime: response.result.modifiedTime!,
-        mimeType: response.result.mimeType!
+        lastEditedUtc: response.result.lastEditedUtc!,
+        mimeType: response.result.mimeType!,
+        url: ''
       }
     } catch (error) {
       console.error('Error getting file details:', error)
@@ -329,8 +332,9 @@ export function useGoogleDrive() {
               id: file.id,
               name: file.name || 'Unknown',
               size: file.sizeBytes ? file.sizeBytes.toString() : '0',
-              modifiedTime: file.lastEditedUtc || file.modifiedTime || '',
-              mimeType: file.mimeType || ''
+              lastEditedUtc: file.lastEditedUtc || file.lastEditedUtc || '',
+              mimeType: file.mimeType || '',
+              url: file.url || ''
             }
             resolve(pickerFile)
           } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
