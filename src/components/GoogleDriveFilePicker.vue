@@ -134,7 +134,6 @@ const formatDate = (dateString: string) => {
 
 <style scoped>
 .google-drive-picker {
-  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -142,18 +141,15 @@ const formatDate = (dateString: string) => {
 .picker-card {
   border-radius: 0;
   box-shadow: none;
-  height: 100%;
   display: flex;
   flex-direction: column;
   border: none;
 }
 
 .picker-card :deep(.el-card__body) {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  flex: 1;
+  flex-shrink: 0;
 }
 
 .card-header {
@@ -169,11 +165,8 @@ const formatDate = (dateString: string) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  flex: 1;
   padding: 12px 20px 20px 20px;
+  flex-shrink: 0;
 }
 
 .picker-prompt {

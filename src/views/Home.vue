@@ -29,6 +29,17 @@
 
         <div class="viewer-container">
           <div class="sidebar">
+            <!-- App purpose - required for OAuth verification: homepage must explain purpose -->
+            <div class="app-purpose-section">
+              <h2 class="purpose-title">About this application</h2>
+              <p class="purpose-text">
+                <strong>DWG Viewer for Google Drive™</strong> is a web application that lets you <strong>view DWG and DXF CAD drawing files</strong> stored in your Google Drive™ without downloading them or installing desktop software.
+              </p>
+              <p class="purpose-text">
+                We use Google Drive™ access only to <strong>list and open the files you choose</strong> via the file picker. We do not access, store, or process your files beyond displaying them in the viewer. You can also view local files without connecting to Google Drive™.
+              </p>
+            </div>
+
             <!-- Google Drive Auth - always shown at top -->
             <div class="auth-section">
               <GoogleDriveAuth />
@@ -390,9 +401,36 @@ onUnmounted(() => {
   background: #f8f9fa;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   flex-shrink: 0;
   position: relative;
+  min-height: 0;
+}
+
+.app-purpose-section {
+  flex-shrink: 0;
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.purpose-title {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.purpose-text {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #606266;
+}
+
+.purpose-text:last-child {
+  margin-bottom: 0;
 }
 
 .auth-section {
@@ -401,11 +439,9 @@ onUnmounted(() => {
 }
 
 .picker-section {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .viewer-main {
